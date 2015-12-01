@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                               @Override
                               public void run() {
                                   DeviceConfirmationFragment deviceConfirmationFragment = new DeviceConfirmationFragment();
-                                  deviceConfirmationFragment.show(getFragmentManager(), "metawear_device_confirmation_fragment");
+                                  deviceConfirmationFragment.flashDeviceLight(mwBoard, getFragmentManager());
 
                                   Toast.makeText(getApplicationContext(), R.string.toast_connected, Toast.LENGTH_SHORT).show();
                               }

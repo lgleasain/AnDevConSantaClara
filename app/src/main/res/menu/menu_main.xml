@@ -7,9 +7,14 @@
         android:orderInCategory="100"
         android:title="@string/action_connect"
         app:showAsAction="never" />
-        <item
+    <item
         android:id="@+id/action_temperature"
         android:orderInCategory="100"
         android:title="@string/temperature_text"
+        app:showAsAction="never" />
+     <item
+        android:id="@+id/action_accelerometer"
+        android:orderInCategory="100"
+        android:title="@string/action_accelerometer"
         app:showAsAction="never" />
 </menu>

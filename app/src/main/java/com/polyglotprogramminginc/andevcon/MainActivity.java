@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     private MetaWearBleService.LocalBinder mwBinder;
     private ScannerFragment mwScannerFragment;
     private ThermistorFragment thermistorFragment;
+    private AccelerometerFragment accelerometerFragment;
     private MetaWearBoard mwBoard;
     private Menu menu;
 
@@ -75,6 +76,10 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
             thermistorFragment.setMetaWearBoard(mwBoard);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.main_content, thermistorFragment).commit();
+        } else if(id == R.id.action_accelerometer){
+            accelerometerFragment = new AccelerometerFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.main_content, accelerometerFragment).commit();
         }
 
         return super.onOptionsItemSelected(item);

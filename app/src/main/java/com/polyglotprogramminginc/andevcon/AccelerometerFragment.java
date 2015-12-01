@@ -25,6 +25,7 @@ public class AccelerometerFragment extends Fragment {
 
     private MetaWearBoard metaWearBoard;
     private Accelerometer accelerometer;
+    private boolean accelerometerStarted = false;
 
     public AccelerometerFragment() {
         // Required empty public constructor
@@ -47,7 +48,15 @@ public class AccelerometerFragment extends Fragment {
                 new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startAccelerometer();
+                        if(accelerometerStarted == false) {
+                            accelerometerStarted = true;
+                            ((Button) getView().findViewById(R.id.start_accelerometer)).setText(R.string.stop_accelerometer);
+                            startAccelerometer();
+                        }else{
+                            accelerometerStarted = false;
+                            ((Button) getView().findViewById(R.id.start_accelerometer)).setText(R.string.start_accelerometer);
+                            accelerometer.stop();
+                        }
                     }
                 }
         );

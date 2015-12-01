@@ -1,5 +1,8 @@
 package com.polyglotprogramminginc.andevcon;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.bluetooth.BluetoothDevice;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -14,11 +17,17 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.mbientlab.bletoolbox.scanner.BleScannerFragment;
 import com.mbientlab.metawear.MetaWearBleService;
 
-public class MainActivity extends AppCompatActivity implements ServiceConnection{
+import java.util.Locale;
+import java.util.UUID;
+
+public class MainActivity extends AppCompatActivity implements ServiceConnection, BleScannerFragment.ScannerCommunicationBus{
     private MetaWearBleService.LocalBinder mwBinder;
+    private ScannerFragment mwScannerFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +55,13 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_connect) {
+                     if (mwScannerFragment == null) {
+                        mwScannerFragment = new ScannerFragment();
+                        mwScannerFragment.show(getFragmentManager(), "metawear_scanner_fragment");
+                    } else {
+                        mwScannerFragment.show(getFragmentManager(), "metawear_scanner_fragment");
+                    }
             return true;
         }
 
@@ -64,4 +79,31 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     public void onServiceDisconnected(ComponentName name) {
         Log.i("Main Activity", "Service Disconnected");
     }
+
+    /**
+     * callbacks for Bluetooth device scan
+     */
+    @Override
+    public void onDeviceSelected(BluetoothDevice device) {
+        Fragment metawearBlescannerPopup = getFragmentManager().findFragmentById(R.id.metawear_blescanner_popup_fragment);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.remove(metawearBlescannerPopup);
+        fragmentTransaction.commit();
+        mwScannerFragment.dismiss();
+        Toast.makeText(this, String.format(Locale.US, "Selected device: %s",
+                device.getAddress()), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public UUID[] getFilterServiceUuids() {
+        ///< Only return MetaWear boards in the scan
+        return new UUID[]{UUID.fromString("326a9000-85cb-9195-d9dd-464cfbbae75a")};
+    }
+
+    @Override
+    public long getScanDuration() {
+        ///< Scan for 10000ms (10 seconds)
+        return 10000;
+    }
+
 }

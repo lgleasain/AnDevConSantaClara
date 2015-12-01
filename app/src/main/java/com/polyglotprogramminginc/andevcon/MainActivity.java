@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.mbientlab.bletoolbox.scanner.BleScannerFragment;
 import com.mbientlab.metawear.MetaWearBleService;
+import com.mbientlab.metawear.MetaWearBoard;
 
 import java.util.Locale;
 import java.util.UUID;
@@ -28,6 +29,8 @@ import java.util.UUID;
 public class MainActivity extends AppCompatActivity implements ServiceConnection, BleScannerFragment.ScannerCommunicationBus{
     private MetaWearBleService.LocalBinder mwBinder;
     private ScannerFragment mwScannerFragment;
+    private MetaWearBoard mwBoard;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        this.menu = menu;
         return true;
     }
 
@@ -85,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
      */
     @Override
     public void onDeviceSelected(BluetoothDevice device) {
+        connect(device);
         Fragment metawearBlescannerPopup = getFragmentManager().findFragmentById(R.id.metawear_blescanner_popup_fragment);
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.remove(metawearBlescannerPopup);
@@ -104,6 +109,45 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     public long getScanDuration() {
         ///< Scan for 10000ms (10 seconds)
         return 10000;
+    }
+
+
+    /**
+     * Connection callbacks
+     */
+    private MetaWearBoard.ConnectionStateHandler connectionStateHandler = new MetaWearBoard.ConnectionStateHandler() {
+        @Override
+        public void connected() {
+            Log.i("Metawear Controller", "Device Connected");
+            runOnUiThread(new Runnable() {
+                              @Override
+                              public void run() {
+
+
+                                  Toast.makeText(getApplicationContext(), R.string.toast_connected, Toast.LENGTH_SHORT).show();
+                              }
+                          }
+            );
+
+        }
+
+        @Override
+        public void disconnected() {
+            Log.i("Metawear Controler", "Device Disconnected");
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getApplicationContext(), R.string.toast_disconnected, Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }
+    };
+
+    private void connect(BluetoothDevice metaWearDevice){
+        mwBoard = mwBinder.getMetaWearBoard(metaWearDevice);
+        mwBoard.setConnectionStateHandler(connectionStateHandler);
+        mwBoard.connect();
     }
 
 }

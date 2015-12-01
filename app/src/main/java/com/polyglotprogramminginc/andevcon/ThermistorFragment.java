@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mbientlab.metawear.AsyncOperation;
@@ -17,6 +19,7 @@ import com.mbientlab.metawear.RouteManager;
 import com.mbientlab.metawear.UnsupportedModuleException;
 import com.mbientlab.metawear.module.MultiChannelTemperature;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,16 +28,18 @@ import java.util.List;
  */
 public class ThermistorFragment extends Fragment {
 
-    public void setMetaWearBoard(MetaWearBoard metaWearBoard) {
-        this.metaWearBoard = metaWearBoard;
-    }
 
     private MetaWearBoard metaWearBoard;
+    private ListView temperatureList;
+    private ArrayList temperatureItemList;
 
     public ThermistorFragment() {
         // Required empty public constructor
     }
 
+    public void setMetaWearBoard(MetaWearBoard metaWearBoard) {
+        this.metaWearBoard = metaWearBoard;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -45,7 +50,15 @@ public class ThermistorFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        ((Button) getView().findViewById(R.id.read_temperature)).setOnClickListener(
+        temperatureList = (ListView) getView().findViewById(R.id.temperatureList);
+        temperatureItemList = new ArrayList<String>();
+        // Create The Adapter with passing ArrayList as 3rd parameter
+        ArrayAdapter<String> arrayAdapter =
+                new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, temperatureItemList);
+        // Set The Adapter
+        temperatureList.setAdapter(arrayAdapter);
+
+        ((Button) getView().findViewById(R.id.downloadTemperature)).setOnClickListener(
                 new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -72,7 +85,7 @@ public class ThermistorFragment extends Fragment {
                                 @Override
                                 public void run() {
 
-                                    ((TextView) getView().findViewById(R.id.temperature_reading)).setText(String.valueOf(temperatureReading));
+                                    //((TextView) getView().findViewById(R.id.temperature_reading)).setText(String.valueOf(temperatureReading));
                                 }
                             });
                             Log.i("MainActivity", String.format("Ext thermistor: %.3fC",

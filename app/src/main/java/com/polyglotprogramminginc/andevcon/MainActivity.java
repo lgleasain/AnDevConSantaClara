@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                     .replace(R.id.main_content, thermistorFragment).commit();
         } else if(id == R.id.action_accelerometer){
             accelerometerFragment = new AccelerometerFragment();
+            accelerometerFragment.setMetaWearBoard(mwBoard);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.main_content, accelerometerFragment).commit();
         }

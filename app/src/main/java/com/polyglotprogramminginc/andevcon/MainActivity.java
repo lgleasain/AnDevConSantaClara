@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -26,7 +27,8 @@ import com.mbientlab.metawear.MetaWearBoard;
 import java.util.Locale;
 import java.util.UUID;
 
-public class MainActivity extends AppCompatActivity implements ServiceConnection, BleScannerFragment.ScannerCommunicationBus{
+public class MainActivity extends AppCompatActivity implements ServiceConnection, BleScannerFragment.ScannerCommunicationBus,
+        DeviceConfirmationFragment.DeviceConfirmCallback{
     private MetaWearBleService.LocalBinder mwBinder;
     private ScannerFragment mwScannerFragment;
     private MetaWearBoard mwBoard;
@@ -150,5 +152,23 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         mwBoard.setConnectionStateHandler(connectionStateHandler);
         mwBoard.connect();
     }
+
+    public void pairDevice() {
+    }
+
+    public void dontPairDevice() {
+        new CountDownTimer(2000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+            }
+
+            public void onFinish() {
+                mwBoard.disconnect();
+            }
+        }.start();
+
+    }
+
+
 
 }

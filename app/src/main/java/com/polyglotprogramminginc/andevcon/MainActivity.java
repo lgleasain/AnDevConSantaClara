@@ -122,7 +122,8 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
             runOnUiThread(new Runnable() {
                               @Override
                               public void run() {
-
+                                  DeviceConfirmationFragment deviceConfirmationFragment = new DeviceConfirmationFragment();
+                                  deviceConfirmationFragment.show(getFragmentManager(), "metawear_device_confirmation_fragment");
 
                                   Toast.makeText(getApplicationContext(), R.string.toast_connected, Toast.LENGTH_SHORT).show();
                               }

@@ -4,5 +4,9 @@
     <string name="action_connect">Connect</string>
     <string name="toast_connected">MetaWear Connected</string>
     <string name="toast_disconnected">MetaWear Disconnected</string>
+    <string name="dialog_no">No</string>
+    <string name="dialog_yes">Yes</string>
+    <string name="pairing_title">Pair Device</string>
+    <string name="pairing_text">Do you see a blinking blue LED on the MetaWear?</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

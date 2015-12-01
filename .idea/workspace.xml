@@ -50,17 +50,17 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/polyglotprogramminginc/andevcon/MainActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="80" column="60" selection-start-line="80" selection-start-column="60" selection-end-line="80" selection-end-column="60" />
+              <caret line="133" column="0" selection-start-line="133" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#5231#5760#0" expanded="true" />
-                <element signature="e#5647#5671#0" expanded="true" />
-                <element signature="e#5759#5760#0" expanded="true" />
-                <element signature="e#5933#6160#0" expanded="true" />
-                <element signature="e#6072#6099#0" expanded="true" />
-                <element signature="e#6159#6160#0" expanded="true" />
-                <element signature="e#6626#6627#0" expanded="true" />
-                <element signature="e#6678#6679#0" expanded="true" />
+                <element signature="e#5114#5643#0" expanded="true" />
+                <element signature="e#5530#5554#0" expanded="true" />
+                <element signature="e#5642#5643#0" expanded="true" />
+                <element signature="e#5816#6043#0" expanded="true" />
+                <element signature="e#5955#5982#0" expanded="true" />
+                <element signature="e#6042#6043#0" expanded="true" />
+                <element signature="e#6672#6673#0" expanded="true" />
+                <element signature="e#6724#6725#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -84,19 +84,26 @@
       <file leaf-file-name="ThermistorFragment.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/polyglotprogramminginc/andevcon/ThermistorFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.19512194">
-              <caret line="53" column="24" selection-start-line="53" selection-start-column="24" selection-end-line="53" selection-end-column="24" />
+            <state vertical-scroll-proportion="0.87224156">
+              <caret line="144" column="33" selection-start-line="144" selection-start-column="33" selection-end-line="144" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1785#1793#0" expanded="true" />
-                <element signature="e#2050#2243#0" expanded="true" />
-                <element signature="e#2242#2243#0" expanded="true" />
-                <element signature="e#2724#3923#0" expanded="true" />
-                <element signature="e#2920#3709#0" expanded="true" />
-                <element signature="e#3192#3512#0" expanded="true" />
-                <element signature="e#3511#3512#0" expanded="true" />
-                <element signature="e#3708#3709#0" expanded="true" />
-                <element signature="e#3922#3923#0" expanded="true" />
+                <element signature="e#1322#1763#0" expanded="true" />
+                <element signature="e#1762#1763#0" expanded="true" />
+                <element signature="e#1853#3060#0" expanded="true" />
+                <element signature="e#2263#2571#0" expanded="true" />
+                <element signature="e#2570#2571#0" expanded="true" />
+                <element signature="e#2626#2913#0" expanded="true" />
+                <element signature="e#2912#2913#0" expanded="true" />
+                <element signature="e#3059#3060#0" expanded="true" />
+                <element signature="e#3830#3838#0" expanded="true" />
+                <element signature="e#4095#4288#0" expanded="true" />
+                <element signature="e#4287#4288#0" expanded="true" />
+                <element signature="e#5246#6215#0" expanded="true" />
+                <element signature="e#5708#5716#0" expanded="true" />
+                <element signature="e#5894#6147#0" expanded="true" />
+                <element signature="e#6146#6147#0" expanded="true" />
+                <element signature="e#6214#6215#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1792,10 +1799,10 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_main.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_accelerometer.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/polyglotprogramminginc/andevcon/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/polyglotprogramminginc/andevcon/AccelerometerFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_thermistor.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/polyglotprogramminginc/andevcon/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/polyglotprogramminginc/andevcon/ThermistorFragment.java" />
       </list>
     </option>
@@ -2145,14 +2152,14 @@
           <caret line="93" column="8" selection-start-line="93" selection-start-column="8" selection-end-line="93" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5231#5760#0" expanded="true" />
-            <element signature="e#5647#5671#0" expanded="true" />
-            <element signature="e#5759#5760#0" expanded="true" />
-            <element signature="e#5933#6160#0" expanded="true" />
-            <element signature="e#6072#6099#0" expanded="true" />
-            <element signature="e#6159#6160#0" expanded="true" />
-            <element signature="e#6626#6627#0" expanded="true" />
-            <element signature="e#6678#6679#0" expanded="true" />
+            <element signature="e#5114#5643#0" expanded="true" />
+            <element signature="e#5530#5554#0" expanded="true" />
+            <element signature="e#5642#5643#0" expanded="true" />
+            <element signature="e#5816#6043#0" expanded="true" />
+            <element signature="e#5955#5982#0" expanded="true" />
+            <element signature="e#6042#6043#0" expanded="true" />
+            <element signature="e#6672#6673#0" expanded="true" />
+            <element signature="e#6724#6725#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2250,14 +2257,14 @@
           <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#5231#5760#0" expanded="true" />
-            <element signature="e#5647#5671#0" expanded="true" />
-            <element signature="e#5759#5760#0" expanded="true" />
-            <element signature="e#5933#6160#0" expanded="true" />
-            <element signature="e#6072#6099#0" expanded="true" />
-            <element signature="e#6159#6160#0" expanded="true" />
-            <element signature="e#6626#6627#0" expanded="true" />
-            <element signature="e#6678#6679#0" expanded="true" />
+            <element signature="e#5114#5643#0" expanded="true" />
+            <element signature="e#5530#5554#0" expanded="true" />
+            <element signature="e#5642#5643#0" expanded="true" />
+            <element signature="e#5816#6043#0" expanded="true" />
+            <element signature="e#5955#5982#0" expanded="true" />
+            <element signature="e#6042#6043#0" expanded="true" />
+            <element signature="e#6672#6673#0" expanded="true" />
+            <element signature="e#6724#6725#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2462,24 +2469,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/polyglotprogramminginc/andevcon/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="80" column="60" selection-start-line="80" selection-start-column="60" selection-end-line="80" selection-end-column="60" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#5231#5760#0" expanded="true" />
-            <element signature="e#5647#5671#0" expanded="true" />
-            <element signature="e#5759#5760#0" expanded="true" />
-            <element signature="e#5933#6160#0" expanded="true" />
-            <element signature="e#6072#6099#0" expanded="true" />
-            <element signature="e#6159#6160#0" expanded="true" />
-            <element signature="e#6626#6627#0" expanded="true" />
-            <element signature="e#6678#6679#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-10.857142">
@@ -2521,21 +2510,46 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/polyglotprogramminginc/andevcon/ThermistorFragment.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/polyglotprogramminginc/andevcon/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.19512194">
-          <caret line="53" column="24" selection-start-line="53" selection-start-column="24" selection-end-line="53" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="133" column="0" selection-start-line="133" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1785#1793#0" expanded="true" />
-            <element signature="e#2050#2243#0" expanded="true" />
-            <element signature="e#2242#2243#0" expanded="true" />
-            <element signature="e#2724#3923#0" expanded="true" />
-            <element signature="e#2920#3709#0" expanded="true" />
-            <element signature="e#3192#3512#0" expanded="true" />
-            <element signature="e#3511#3512#0" expanded="true" />
-            <element signature="e#3708#3709#0" expanded="true" />
-            <element signature="e#3922#3923#0" expanded="true" />
+            <element signature="e#5114#5643#0" expanded="true" />
+            <element signature="e#5530#5554#0" expanded="true" />
+            <element signature="e#5642#5643#0" expanded="true" />
+            <element signature="e#5816#6043#0" expanded="true" />
+            <element signature="e#5955#5982#0" expanded="true" />
+            <element signature="e#6042#6043#0" expanded="true" />
+            <element signature="e#6672#6673#0" expanded="true" />
+            <element signature="e#6724#6725#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/polyglotprogramminginc/andevcon/ThermistorFragment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.87224156">
+          <caret line="144" column="33" selection-start-line="144" selection-start-column="33" selection-end-line="144" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1322#1763#0" expanded="true" />
+            <element signature="e#1762#1763#0" expanded="true" />
+            <element signature="e#1853#3060#0" expanded="true" />
+            <element signature="e#2263#2571#0" expanded="true" />
+            <element signature="e#2570#2571#0" expanded="true" />
+            <element signature="e#2626#2913#0" expanded="true" />
+            <element signature="e#2912#2913#0" expanded="true" />
+            <element signature="e#3059#3060#0" expanded="true" />
+            <element signature="e#3830#3838#0" expanded="true" />
+            <element signature="e#4095#4288#0" expanded="true" />
+            <element signature="e#4287#4288#0" expanded="true" />
+            <element signature="e#5246#6215#0" expanded="true" />
+            <element signature="e#5708#5716#0" expanded="true" />
+            <element signature="e#5894#6147#0" expanded="true" />
+            <element signature="e#6146#6147#0" expanded="true" />
+            <element signature="e#6214#6215#0" expanded="true" />
           </folding>
         </state>
       </provider>

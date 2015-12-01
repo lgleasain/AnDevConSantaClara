@@ -72,8 +72,6 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                     }
             return true;
         }else if(id == R.id.action_temperature){
-            thermistorFragment = new ThermistorFragment();
-            thermistorFragment.setMetaWearBoard(mwBoard);
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.main_content, thermistorFragment).commit();
         } else if(id == R.id.action_accelerometer){
@@ -166,6 +164,9 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     }
 
     public void pairDevice() {
+        thermistorFragment = new ThermistorFragment();
+        thermistorFragment.setMetaWearBoard(mwBoard);
+        thermistorFragment.startTemperatureLogging();
     }
 
     public void dontPairDevice() {

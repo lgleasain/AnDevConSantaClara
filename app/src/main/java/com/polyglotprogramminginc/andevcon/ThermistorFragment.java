@@ -17,7 +17,9 @@ import com.mbientlab.metawear.Message;
 import com.mbientlab.metawear.MetaWearBoard;
 import com.mbientlab.metawear.RouteManager;
 import com.mbientlab.metawear.UnsupportedModuleException;
+import com.mbientlab.metawear.module.Logging;
 import com.mbientlab.metawear.module.MultiChannelTemperature;
+import com.mbientlab.metawear.module.Timer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +34,54 @@ public class ThermistorFragment extends Fragment {
     private MetaWearBoard metaWearBoard;
     private ListView temperatureList;
     private ArrayList temperatureItemList;
+    private MultiChannelTemperature mcTempModule;
+    private ArrayAdapter<String> temperatureArrayAdapter;
+    private Logging loggingModule;
 
     public ThermistorFragment() {
         // Required empty public constructor
     }
+
+    private final RouteManager.MessageHandler loggingMessageHandler = new RouteManager.MessageHandler() {
+        @Override
+        public void process(Message msg) {
+            Log.i("MainActivity", String.format("Ext thermistor: %.3fC",
+
+                    msg.getData(Float.class)));
+            java.sql.Date date = new java.sql.Date(msg.getTimestamp().getTimeInMillis());
+            temperatureItemList.add(String.valueOf(msg.getData(Float.class) + "    " + msg.getTimestampAsString()));
+        }
+    };
+
+
+    private final AsyncOperation.CompletionHandler<RouteManager> temperatureHandler = new AsyncOperation.CompletionHandler<RouteManager>() {
+        @Override
+        public void success(RouteManager result) {
+            result.setLogMessageHandler("mystream", loggingMessageHandler);
+
+            // Read temperature from the NRF soc chip
+            try {
+                AsyncOperation<Timer.Controller> taskResult = metaWearBoard.getModule(Timer.class)
+                        .scheduleTask(new Timer.Task() {
+                            @Override
+                            public void commands() {
+                                mcTempModule.readTemperature(mcTempModule.getSources().get(MultiChannelTemperature.MetaWearRChannel.NRF_DIE));
+                            }
+                        }, 30000, false);
+                taskResult.onComplete(new AsyncOperation.CompletionHandler<Timer.Controller>() {
+                    @Override
+                    public void success(Timer.Controller result) {
+                        // start executing the task
+                        result.start();
+                    }
+                });
+            } catch (UnsupportedModuleException e) {
+                Log.e("Temperature Fragment", e.toString());
+            }
+
+        }
+    };
+
 
     public void setMetaWearBoard(MetaWearBoard metaWearBoard) {
         this.metaWearBoard = metaWearBoard;
@@ -68,37 +114,48 @@ public class ThermistorFragment extends Fragment {
         );
     }
 
-    public void readTemperature() {
+    public void startTemperatureLogging() {
         try {
-            final MultiChannelTemperature mcTempModule = metaWearBoard.getModule(MultiChannelTemperature.class);
-            final List<MultiChannelTemperature.Source> tempSources = mcTempModule.getSources();
-            mcTempModule.routeData()
-                    .fromSource(tempSources.get(MultiChannelTemperature.MetaWearRChannel.NRF_DIE)).stream("temp_nrf_stream")
-                    .commit().onComplete(new AsyncOperation.CompletionHandler<RouteManager>() {
-                @Override
-                public void success(RouteManager result) {
-                    result.subscribe("temp_nrf_stream", new RouteManager.MessageHandler() {
-                        @Override
-                        public void process(Message msg) {
-                            final Float temperatureReading = msg.getData(Float.class);
+            if (mcTempModule == null) {
+                mcTempModule = metaWearBoard.getModule(MultiChannelTemperature.class);
+                List<MultiChannelTemperature.Source> tempSources = mcTempModule.getSources();
+
+                MultiChannelTemperature.Source tempSource = tempSources.get(MultiChannelTemperature.MetaWearRChannel.NRF_DIE);
+                mcTempModule.routeData().fromSource(tempSource).log("mystream")
+                        .commit().onComplete(temperatureHandler);
+            }
+
+            loggingModule = metaWearBoard.getModule(Logging.class);
+            loggingModule.startLogging();
+        } catch (UnsupportedModuleException e) {
+            Log.e("Thermistor Fragment", e.toString());
+        }
+    }
+
+    public void readTemperature() {
+        temperatureItemList = new ArrayList<String>();
+
+        loggingModule.downloadLog((float) 0.1, new Logging.DownloadHandler() {
+                    @Override
+                    public void onProgressUpdate(int nEntriesLeft, int totalEntries) {
+                        Log.i("Thermistor", String.format("Progress= %d / %d", nEntriesLeft,
+                                totalEntries));
+
+                        if (nEntriesLeft == 0) {
+                            final ArrayAdapter<String> arrayAdapter =
+                                    new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, temperatureItemList);
+                            // Set The Adapter
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
 
-                                    //((TextView) getView().findViewById(R.id.temperature_reading)).setText(String.valueOf(temperatureReading));
+                                    temperatureList.setAdapter(arrayAdapter);
                                 }
                             });
-                            Log.i("MainActivity", String.format("Ext thermistor: %.3fC",
-                                    temperatureReading));
                         }
-                    });
-
-                    // Read temperature from the NRF soc chip
-                    mcTempModule.readTemperature(tempSources.get(MultiChannelTemperature.MetaWearRChannel.NRF_DIE));
+                    }
                 }
-            });
-        } catch (UnsupportedModuleException e) {
-            Log.e("Thermistor Fragment", e.toString());
-        }
+        );
+
     }
 }

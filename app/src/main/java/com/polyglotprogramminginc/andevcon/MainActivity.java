@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
         DeviceConfirmationFragment.DeviceConfirmCallback{
     private MetaWearBleService.LocalBinder mwBinder;
     private ScannerFragment mwScannerFragment;
+    private ThermistorFragment thermistorFragment;
     private MetaWearBoard mwBoard;
     private Menu menu;
 
@@ -69,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
                         mwScannerFragment.show(getFragmentManager(), "metawear_scanner_fragment");
                     }
             return true;
+        }else if(id == R.id.action_temperature){
+            thermistorFragment = new ThermistorFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.main_content, thermistorFragment).commit();
         }
 
         return super.onOptionsItemSelected(item);

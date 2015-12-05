@@ -166,7 +166,6 @@ public class MainActivity extends AppCompatActivity implements ServiceConnection
     public void pairDevice() {
         thermistorFragment = new ThermistorFragment();
         thermistorFragment.setMetaWearBoard(mwBoard);
-        thermistorFragment.startTemperatureLogging();
     }
 
     public void dontPairDevice() {

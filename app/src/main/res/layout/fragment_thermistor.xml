@@ -11,13 +11,18 @@
         android:layout_height="wrap_content"
         android:weightSum="1">
 
-        <ListView
-            android:id="@+id/temperatureList"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.9"
-            android:orientation="horizontal">
-        </ListView>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:text="@string/temperature_text" />
+
+        <TextView
+                android:id="@+id/temperature_reading"
+                android:layout_width="0dp"
+                android:layout_weight="1" />
+
+
+        <TextView />
 
         <TableRow
             android:id="@+id/tableRow9"
@@ -27,11 +32,11 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/downloadTemperature"
+                android:id="@+id/startStopTemperature"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/read_temperature"
+                android:text="@string/start_temperature_stream"
                  />
         </TableRow>
     </TableLayout>

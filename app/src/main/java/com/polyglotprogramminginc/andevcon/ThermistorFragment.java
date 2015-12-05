@@ -35,21 +35,24 @@ public class ThermistorFragment extends Fragment {
     private ListView temperatureList;
     private ArrayList temperatureItemList;
     private MultiChannelTemperature mcTempModule;
-    private ArrayAdapter<String> temperatureArrayAdapter;
-    private Logging loggingModule;
+    private Timer.Controller timer;
+    private boolean streaming = false;
 
     public ThermistorFragment() {
         // Required empty public constructor
     }
 
-    private final RouteManager.MessageHandler loggingMessageHandler = new RouteManager.MessageHandler() {
+    private final RouteManager.MessageHandler streamingMessageHandler = new RouteManager.MessageHandler() {
         @Override
-        public void process(Message msg) {
+        public void process(final Message msg) {
             Log.i("MainActivity", String.format("Ext thermistor: %.3fC",
-
                     msg.getData(Float.class)));
-            java.sql.Date date = new java.sql.Date(msg.getTimestamp().getTimeInMillis());
-            temperatureItemList.add(String.valueOf(msg.getData(Float.class) + "    " + msg.getTimestampAsString()));
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ((TextView) getView().findViewById(R.id.temperature_reading)).setText(String.valueOf(msg.getData(Float.class)));
+                }
+            });
         }
     };
 
@@ -57,7 +60,7 @@ public class ThermistorFragment extends Fragment {
     private final AsyncOperation.CompletionHandler<RouteManager> temperatureHandler = new AsyncOperation.CompletionHandler<RouteManager>() {
         @Override
         public void success(RouteManager result) {
-            result.setLogMessageHandler("mystream", loggingMessageHandler);
+            result.subscribe("mystream", streamingMessageHandler);
 
             // Read temperature from the NRF soc chip
             try {
@@ -67,11 +70,12 @@ public class ThermistorFragment extends Fragment {
                             public void commands() {
                                 mcTempModule.readTemperature(mcTempModule.getSources().get(MultiChannelTemperature.MetaWearRChannel.NRF_DIE));
                             }
-                        }, 30000, false);
+                        }, 50, false);
                 taskResult.onComplete(new AsyncOperation.CompletionHandler<Timer.Controller>() {
                     @Override
                     public void success(Timer.Controller result) {
                         // start executing the task
+                        timer = result;
                         result.start();
                     }
                 });
@@ -96,66 +100,43 @@ public class ThermistorFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        temperatureList = (ListView) getView().findViewById(R.id.temperatureList);
-        temperatureItemList = new ArrayList<String>();
-        // Create The Adapter with passing ArrayList as 3rd parameter
-        ArrayAdapter<String> arrayAdapter =
-                new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, temperatureItemList);
-        // Set The Adapter
-        temperatureList.setAdapter(arrayAdapter);
+        final Button startStopTemperature = (Button) getView().findViewById(R.id.startStopTemperature);
 
-        ((Button) getView().findViewById(R.id.downloadTemperature)).setOnClickListener(
+        startStopTemperature.setOnClickListener(
                 new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        readTemperature();
+                        if (streaming) {
+                            startStopTemperature.setText(R.string.start_temperature_stream);
+                            stopTemperatureStreaming();
+                        } else {
+                            startStopTemperature.setText(R.string.stop_temperature_stream);
+                            startTemperatureStreaming();
+                        }
                     }
                 }
         );
     }
 
-    public void startTemperatureLogging() {
+    public void startTemperatureStreaming() {
         try {
+            streaming = true;
             if (mcTempModule == null) {
                 mcTempModule = metaWearBoard.getModule(MultiChannelTemperature.class);
                 List<MultiChannelTemperature.Source> tempSources = mcTempModule.getSources();
 
                 MultiChannelTemperature.Source tempSource = tempSources.get(MultiChannelTemperature.MetaWearRChannel.NRF_DIE);
-                mcTempModule.routeData().fromSource(tempSource).log("mystream")
+                mcTempModule.routeData().fromSource(tempSource).stream("mystream")
                         .commit().onComplete(temperatureHandler);
             }
 
-            loggingModule = metaWearBoard.getModule(Logging.class);
-            loggingModule.startLogging();
         } catch (UnsupportedModuleException e) {
             Log.e("Thermistor Fragment", e.toString());
         }
     }
 
-    public void readTemperature() {
-        temperatureItemList = new ArrayList<String>();
-
-        loggingModule.downloadLog((float) 0.1, new Logging.DownloadHandler() {
-                    @Override
-                    public void onProgressUpdate(int nEntriesLeft, int totalEntries) {
-                        Log.i("Thermistor", String.format("Progress= %d / %d", nEntriesLeft,
-                                totalEntries));
-
-                        if (nEntriesLeft == 0) {
-                            final ArrayAdapter<String> arrayAdapter =
-                                    new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, temperatureItemList);
-                            // Set The Adapter
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-
-                                    temperatureList.setAdapter(arrayAdapter);
-                                }
-                            });
-                        }
-                    }
-                }
-        );
-
+    public void stopTemperatureStreaming() {
+        streaming = false;
+        timer.stop();
     }
 }

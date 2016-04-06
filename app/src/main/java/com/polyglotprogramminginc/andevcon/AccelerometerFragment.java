@@ -16,6 +16,7 @@ import com.mbientlab.metawear.RouteManager;
 import com.mbientlab.metawear.UnsupportedModuleException;
 import com.mbientlab.metawear.data.CartesianFloat;
 import com.mbientlab.metawear.module.Accelerometer;
+import com.mbientlab.metawear.module.Bmi160Accelerometer;
 
 
 /**
@@ -25,7 +26,9 @@ public class AccelerometerFragment extends Fragment {
 
     private MetaWearBoard metaWearBoard;
     private Accelerometer accelerometer;
+    private Bmi160Accelerometer bmi160AccModule;
     private boolean accelerometerStarted = false;
+    private boolean stepCounterStarted = false;
 
     public AccelerometerFragment() {
         // Required empty public constructor
@@ -48,11 +51,11 @@ public class AccelerometerFragment extends Fragment {
                 new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(accelerometerStarted == false) {
+                        if (accelerometerStarted == false) {
                             accelerometerStarted = true;
                             ((Button) getView().findViewById(R.id.start_accelerometer)).setText(R.string.stop_accelerometer);
                             startAccelerometer();
-                        }else{
+                        } else {
                             accelerometerStarted = false;
                             ((Button) getView().findViewById(R.id.start_accelerometer)).setText(R.string.start_accelerometer);
                             accelerometer.stop();
@@ -60,8 +63,71 @@ public class AccelerometerFragment extends Fragment {
                     }
                 }
         );
+
+        ((Button) getView().findViewById(R.id.start_step_count)).setOnClickListener(
+                new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (stepCounterStarted == false) {
+                            stepCounterStarted = true;
+                            ((Button) getView().findViewById(R.id.start_step_count)).setText(R.string.stop_step_count);
+                            startStepTracking();
+                        } else {
+                            stepCounterStarted = false;
+                            ((Button) getView().findViewById(R.id.start_step_count)).setText(R.string.start_step_count);
+                            bmi160AccModule.disableStepDetection();
+                        }
+                    }
+                }
+        );
     }
 
+    private void startStepTracking() {
+        try {
+            bmi160AccModule = metaWearBoard.getModule(Bmi160Accelerometer.class);
+
+            // Enable step detection
+            bmi160AccModule.enableStepDetection();
+
+            // Route data from the chip's step counter
+            bmi160AccModule.routeData().fromStepCounter(true).stream("step_counter").commit()
+                    .onComplete(new AsyncOperation.CompletionHandler<RouteManager>() {
+                        @Override
+                        public void success(RouteManager result) {
+                            result.subscribe("step_counter", new RouteManager.MessageHandler() {
+                                @Override
+                                public void process(Message msg) {
+                                    Log.i("MainActivity", "Steps= " + msg.getData(Integer.class));
+                                }
+                            });
+                        }
+                    });
+            // Receive notifications for each step Eed
+            bmi160AccModule.routeData().fromStepDetection().stream("step_detector").commit()
+                    .onComplete(new AsyncOperation.CompletionHandler<RouteManager>() {
+                        @Override
+                        public void success(RouteManager result) {
+                            result.subscribe("step_detector", new RouteManager.MessageHandler() {
+                                @Override
+                                public void process(Message msg) {
+                                    Log.i("MainActivity", "You took a step");
+                                }
+                            });
+                        }
+                    });
+
+
+            bmi160AccModule.configureStepDetection()
+                    // Set operation mode to sensitive
+                    .setSensitivity(Bmi160Accelerometer.StepSensitivity.SENSITIVE)
+                    // Enable step counter
+                    .enableStepCounter()
+                    .commit();
+            bmi160AccModule.start();
+        }catch (UnsupportedModuleException e){
+            Log.e("Error", "module not supported on this board");
+        }
+    }
 
     private void startAccelerometer() {
         try {

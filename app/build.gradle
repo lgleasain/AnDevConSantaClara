@@ -24,7 +24,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.android.support:design:22.2.1'
-    compile 'com.mbientlab:metawear:2.2.0'
+    compile 'com.mbientlab:metawear:2.5.9'
     compile 'com.mbientlab.bletoolbox:scanner:0.2.0'
     compile 'com.android.support:support-v4:22.2.1'
 }

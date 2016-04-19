@@ -76,6 +76,7 @@ public class AccelerometerFragment extends Fragment {
                             stepCounterStarted = false;
                             ((Button) getView().findViewById(R.id.start_step_count)).setText(R.string.start_step_count);
                             bmi160AccModule.disableStepDetection();
+                            bmi160AccModule.stop();
                         }
                     }
                 }
